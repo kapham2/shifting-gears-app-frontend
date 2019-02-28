@@ -95,8 +95,9 @@ body {
 .cover {
   /* padding: 0 1.5rem; */
   /* added */
-  min-height: 75vh;
-  padding: 2rem;
+  max-width: 18rem;
+  min-height: 20rem;
+  padding: 1rem;
   background-color: rgba(255, 255, 255, .9);
   /* added */
 }
@@ -104,16 +105,6 @@ body {
   /* padding: .75rem 1.25rem; */
   font-weight: 700;
 }
-
-/* added */
-.cover-heading {
-    font-size: calc(10px + 6vmin);
-}
-
-.cover-lead {
-    font-size: calc(10px + 2vmin);
-}
-/* added */
 
 /*
  * Footer

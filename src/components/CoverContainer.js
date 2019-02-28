@@ -18,12 +18,14 @@ class Cover extends React.Component {
           </div>
         </header>
 
-        <main role="main" className="inner cover shadow-sm rounded">
-          <h4 className="cover-heading">Please login</h4>
-          <p className="lead cover-lead">[username]</p>
-          <p className="lead cover-lead">[password]</p>
-          <div className="btn btn-secondary shadow-sm">Login</div>
-        </main>
+        <div className="d-flex justify-content-center">
+          <main role="main" className="inner cover shadow-sm rounded">
+            <h4 className="cover-heading">Please login</h4>
+            <p className="lead cover-lead">[username]</p>
+            <p className="lead cover-lead">[password]</p>
+            <div className="btn btn-secondary shadow-sm">Login</div>
+          </main>
+        </div>
 
         <footer className="mastfoot mt-auto">
           <div className="inner">

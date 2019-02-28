@@ -96,16 +96,21 @@ body {
 .cover {
   /* padding: 0 1.5rem; */
   /* added */
-  max-width: 18rem;
-  min-width: 16rem;
-  min-height: 20rem;
-  padding: 1rem;
-  background-color: rgba(255, 255, 255, .9);
+  /* max-width: 18rem; */
+  /* min-width: 16rem; */
+  /* min-height: 20rem; */
+  /* padding: 1rem; */
+  /* background-color: rgba(255, 255, 255, .9); */
   /* added */
 }
 .cover .btn {
   /* padding: .75rem 1.25rem; */
   font-weight: 700;
+  /* added */
+  color: #fff;
+  background-color: rgba(25, 45, 75, .75);
+  border: .05rem solid rgba(25, 45, 75, .75);
+  /* added */
 }
 
 /*

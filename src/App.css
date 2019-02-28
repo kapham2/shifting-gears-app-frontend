@@ -2,9 +2,9 @@
   text-align: center;
   width: 100vw;
   height: 100vh;
-  background-image: url('/vlad-smolyakov-429115-unsplash.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center;
+}
+
+.img-icon {
+  max-width: 6vh;
+  height: auto;
 }

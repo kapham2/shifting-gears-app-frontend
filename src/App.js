@@ -8,8 +8,8 @@ class App extends Component {
     return (
       <div className="App">
 
-        <div className="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-          <header className="masthead mb-auto shadow-sm rounded">
+        <div className="cover-container d-flex w-100 h-100 p-2 mx-auto flex-column">
+          <header className="masthead mb-auto shadow-sm">
             <div className="inner">
               <h3 className="masthead-brand">
                 <img className="img-icon" src="/icon.png" alt="" />
@@ -27,7 +27,7 @@ class App extends Component {
             <h1 className="cover-heading">Instructions</h1>
             <p className="lead cover-lead">1.</p>
             <p className="lead cover-lead">2.</p>
-            <div className="btn btn-lg btn-secondary">Play</div>
+            <div className="btn btn-secondary shadow-sm">Play</div>
           </main>
 
           <footer className="mastfoot mt-auto">

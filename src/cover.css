@@ -49,7 +49,6 @@ body {
 .masthead {
   margin-bottom: 2rem;
   /* added */
-  background-color: rgba(25, 45, 75, 1);
   padding: 0.25rem 0.5rem 0.25rem;
   /* added */
 }
@@ -98,10 +97,11 @@ body {
   /* added */
   min-height: 75vh;
   padding: 2rem;
+  background-color: rgba(255, 255, 255, .9);
   /* added */
 }
-.cover .btn-lg {
-  padding: .75rem 1.25rem;
+.cover .btn {
+  /* padding: .75rem 1.25rem; */
   font-weight: 700;
 }
 

@@ -2,7 +2,7 @@
   text-align: center;
   width: 100vw;
   height: 100vh;
-  min-height: 28rem;
+  /* min-height: 28rem; */
   background-image: url('/background.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
@@ -13,4 +13,8 @@
 .img-icon {
   max-width: 1.5rem;
   height: auto;
+}
+
+.nav-link:hover {
+  cursor: pointer;
 }

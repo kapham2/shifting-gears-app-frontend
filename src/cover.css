@@ -97,20 +97,27 @@ body {
   /* padding: 0 1.5rem; */
   /* added */
   /* max-width: 18rem; */
-  /* min-width: 16rem; */
+  min-width: 16rem;
   /* min-height: 20rem; */
   /* padding: 1rem; */
   /* background-color: rgba(255, 255, 255, .9); */
   /* added */
 }
-.cover .btn {
+.cover .btn,
+.cover .btn:active {
   /* padding: .75rem 1.25rem; */
   font-weight: 700;
   /* added */
   color: #fff;
-  background-color: rgba(25, 45, 75, .75);
-  border: .05rem solid rgba(25, 45, 75, .75);
+  background-color: rgba(25, 45, 75, .95);
+  border: .05rem solid rgba(25, 45, 75, .85);
   /* added */
+}
+
+.cover .btn:hover {
+  color: rgba(25, 45, 75, .95);
+  background-color: #fff;
+  border: .05rem solid #fff;
 }
 
 /*

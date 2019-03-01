@@ -22,7 +22,7 @@ class SigninForm extends React.Component {
         this.signUp(username, password)
         break
       case "Use Incognito Mode":
-        this.authenticate("incognito","p@$$w0rd")
+        this.authenticate("incognito", "p@$$w0rd")
         break
       default:
         console.log("SigninForm: onSubmitForm => ERROR!")
@@ -32,10 +32,19 @@ class SigninForm extends React.Component {
 
   authenticate = (username, password) => {
     console.log("authenticated!")
+    this.updateNav()
   }
 
   signUp = (username, password) => {
     console.log("signed up!")
+    this.updateNav()
+  }
+
+  updateNav = () => {
+    this.props.updateSignedIn()
+    this.props.updateActive("Game")
+    document.getElementsByClassName("nav-link active")[0].classList.remove("active")
+    document.getElementsByClassName("nav-link")[0].classList.add("active")
   }
 
   render() {

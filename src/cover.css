@@ -103,8 +103,7 @@ body {
   /* background-color: rgba(255, 255, 255, .9); */
   /* added */
 }
-.cover .btn,
-.cover .btn:active {
+.cover .btn {
   /* padding: .75rem 1.25rem; */
   font-weight: 700;
   /* added */
@@ -114,11 +113,19 @@ body {
   /* added */
 }
 
+/* added */
 .cover .btn:hover {
   color: rgba(25, 45, 75, .95);
   background-color: #fff;
   border: .05rem solid #fff;
 }
+
+.cover .btn:active {
+  color: #fff;
+  background-color: rgba(25, 45, 75, .95);
+  border: .05rem solid rgba(25, 45, 75, .85);
+}
+/* added */
 
 /*
  * Footer

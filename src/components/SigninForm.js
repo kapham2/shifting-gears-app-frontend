@@ -5,6 +5,37 @@ class SigninForm extends React.Component {
 
   onSubmitForm = (e) => {
     e.preventDefault()
+
+    let username
+    let password
+
+    if (e.target.querySelector('input')) {
+      username = e.target.querySelector('input[name="username"]').value
+      password = e.target.querySelector('input[name="password"]').value
+    }
+
+    switch(this.props.active) {
+      case "Sign in":
+        this.authenticate(username, password)
+        break
+      case "Sign up":
+        this.signUp(username, password)
+        break
+      case "Use Incognito Mode":
+        this.authenticate("incognito","p@$$w0rd")
+        break
+      default:
+        console.log("SigninForm: onSubmitForm => ERROR!")
+        break
+    }
+  }
+
+  authenticate = (username, password) => {
+    console.log("authenticated!")
+  }
+
+  signUp = (username, password) => {
+    console.log("signed up!")
   }
 
   render() {
@@ -13,8 +44,8 @@ class SigninForm extends React.Component {
       ? "" 
       : (
         <div>
-          <input type="text" id="inputUsername" className="form-control" placeholder="Username" required autoFocus />
-          <input type="password" id="inputPassword" className="form-control" placeholder="Password" required />
+          <input type="text" id="inputUsername" className="form-control" placeholder="Username" name="username"required autoFocus />
+          <input type="password" id="inputPassword" className="form-control" placeholder="Password" name="password" required />
         </div>
         )
 

@@ -51,7 +51,7 @@ class CoverContainer extends React.Component {
         <nav className="nav nav-masthead justify-content-center">
           <div className="nav-link active" name="Game" onClick={this.onClickNav}>Game</div>
           <div className="nav-link" name="Stats" onClick={this.onClickNav}>Stats</div>
-          <div className="nav-link" name="Log out" onClick={this.onClickNav}>Log out</div>
+          <div className="nav-link" name="Log out" onClick={this.onClickLogout}>Log out</div>
         </nav>
       )
 

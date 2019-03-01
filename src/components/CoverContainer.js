@@ -78,7 +78,7 @@ class CoverContainer extends React.Component {
 
         <footer className="mastfoot mt-auto">
           <div className="inner">
-            <p>Photo by Tim Foster on Unsplash | App by Kim Pham</p>
+            <p>Photo by Tim Foster | App by Kim Pham</p>
           </div>
         </footer>
       </div>    

@@ -7,8 +7,8 @@ import Stats from './Stats'
 class CoverContainer extends React.Component {
 
   state = {
-    active: "Sign in",
-    signedIn: false
+    active: "Game",
+    signedIn: true
   }
 
   onClickNav = (e) => {

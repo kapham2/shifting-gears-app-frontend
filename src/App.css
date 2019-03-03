@@ -18,3 +18,7 @@
 .nav-link:hover {
   cursor: pointer;
 }
+
+.img-cyclist {
+  max-width: 6.5rem;
+}

@@ -79,7 +79,7 @@ class Game extends React.Component {
     // console.log("velocityMax:", this.getVelocityMax())
     // console.log("acceleration:", this.getAcceleration())
     // console.log("velocity:", this.state.velocity)
-    
+
     const velocityMax = this.getVelocityMax()
     const acceleration = this.getAcceleration()
 
@@ -117,7 +117,8 @@ class Game extends React.Component {
 
     return (
       <div>
-        <h3>Game</h3>
+        {/* <h3>Game</h3> */}
+        <img className="img-cyclist" src="/cyclist.gif" alt="" />
         <p><button id="start-btn" onClick={this.onClickStart}>Start</button></p>
         <p>Time: {Math.round(this.state.time / 1000 * 100) / 100} s</p>
         <p>Dist: {Math.round(this.state.distance * 100) / 100} m</p>

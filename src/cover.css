@@ -79,7 +79,7 @@ body {
   border-bottom-color: #fff;
 }
 
-@media (min-width: 48em) {
+@media (min-width: 28em) {
   .masthead-brand {
     color: rgba(255, 255, 255, .85);
     float: left;
@@ -89,6 +89,18 @@ body {
   }
 }
 
+/* added */
+@media (min-height: 32em) {
+  .main-content-left {
+    float: left;
+    /* border: solid; */
+  }
+  .main-content-right {
+    float: right;
+    /* border:solid; */
+  }
+}
+/* added */
 
 /*
  * Cover

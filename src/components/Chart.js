@@ -5,17 +5,18 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
  
 class Chart extends React.Component {	
   render() {
-	const options = {
+    const options = {
       backgroundColor: "transparent",
       colorSet: "colorSet",
       width: 300,
       height: 100,
-	  animationEnabled: true,
-	  title:{ 
-        text: "Elevation",
-        fontColor: "#FFFFFF",
-        fontFamily: "calibri",
-        fontSize: 12
+      interactivityEnabled: false,
+      animationEnabled: true,
+      title: { 
+          text: "Elevation",
+          fontColor: "#FFFFFF",
+          fontFamily: "calibri",
+          fontSize: 12
       },
       axisX: { 
         title: "Distance (m)",
@@ -23,7 +24,7 @@ class Chart extends React.Component {
         labelFontColor: "#FFFFFF",
         tickColor: "transparent"
       },
-	  axisY : {
+      axisY: {
         lineColor: "transparent",
         labelFontColor: "transparent",
         tickColor: "transparent",
@@ -31,23 +32,23 @@ class Chart extends React.Component {
         includeZero: true,
         viewportMaximum: 2
       },
-	  toolTip: { shared: true },
-	  data: [{
+      toolTip: { shared: true },
+      data: [{
         markerType: "none",
-		type: "area",
+        type: "splineArea",
         fillOpacity: 1,
-		dataPoints: [
-          { x: 0, y: 1 },
-          { x: 10, y: 1 },
-          { x: 20, y: 2 },
-          { x: 30, y: 2 },
-          { x: 40, y: 1 },
-          { x: 50, y: 1 },
-          { x: 60, y: 2 },
-          { x: 70, y: 2 },
-          { x: 80, y: 2 },
-          { x: 90, y: 1 },
-          { x: 100, y: 1 },
+        dataPoints: [
+          { x: 0, y: this.props.elevation[0] },
+          { x: 10, y: this.props.elevation[1] },
+          { x: 20, y: this.props.elevation[2] },
+          { x: 30, y: this.props.elevation[3] },
+          { x: 40, y: this.props.elevation[4] },
+          { x: 50, y: this.props.elevation[5] },
+          { x: 60, y: this.props.elevation[6] },
+          { x: 70, y: this.props.elevation[7] },
+          { x: 80, y: this.props.elevation[8] },
+          { x: 90, y: this.props.elevation[9] },
+          { x: 100, y: this.props.elevation[10] }
         ]
       },
       {
@@ -62,11 +63,7 @@ class Chart extends React.Component {
       }]
     }
 
-    CanvasJS.addColorSet("colorSet",
-      [
-        "#566e7a",              
-        "#D20155",
-      ]);
+    CanvasJS.addColorSet("colorSet", ["#566e7a", "#D20155"]);
 		
     return (
       <div>

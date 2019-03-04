@@ -23,7 +23,8 @@ class Game extends React.Component {
       velocity: 0.94, //m/s
       teethChainring: 32,
       teethCog: 32,
-      grade: 1 //deg
+      grade: 1, //deg
+      img: "/cyclist.png"
     }
   }
 
@@ -31,17 +32,33 @@ class Game extends React.Component {
     console.log("start")
     this.setState({
       time: 0,
-      start: Date.now()
+      start: Date.now(),
+      distance: 0,
+      img: "/cyclist.gif"
     })
+
     this.timer = setInterval(() => this.setState({ 
       time: Date.now() - this.state.start,
-      distance: Math.min(this.state.distance + this.state.velocity * 1000 / 1000, 100),
+      distance: this.state.distance + this.state.velocity * 1000 / 1000,
       velocity: this.updateVelocity()
     }), 1000)
   }
 
   stopTimer = () => {
     console.log("stop")
+    
+    this.setState({
+      time: 0,
+      start: Date.now(),
+      distance: 0,
+      velocity: 0,
+      teethChainring: 32,
+      teethCog: 32,
+      grade: 1,
+      img: "/cyclist.png",
+      velocityAvg: (this.state.distance / (this.state.time / 1000))
+    })
+
     clearInterval(this.timer)
   }
 
@@ -111,7 +128,7 @@ class Game extends React.Component {
   }
 
   render() {
-    if (this.state.time >= 60000 || this.state.distance >= 100) {
+    if (this.state.distance >= 100) {
         this.stopTimer()
         document.getElementById("start-btn").disabled = false
     }
@@ -119,14 +136,14 @@ class Game extends React.Component {
     return (
       <div>
         {/* <h3>Game</h3> */}
-        <img className="img-cyclist" src="/cyclist.gif" alt="" />
+        <img className="img-cyclist" src={this.state.img} alt="" />
         <Chart distance={this.state.distance} />
         <p><button id="start-btn" onClick={this.onClickStart}>Start</button></p>
-        <p>Time: {Math.round(this.state.time / 1000 * 100) / 100} s</p>
-        <p>Dist: {Math.round(this.state.distance * 100) / 100} m</p>
-        <p>Velocity Max: {Math.round(this.getVelocityMax() * 100) / 100} m/s</p>
-        <p>Acceleration: {Math.round(this.getAcceleration() * 100) / 100} m/s2</p>
-        <p>Velocity: {Math.round(this.state.velocity * 100) / 100} m/s</p>
+        {/* <p>Time: {Math.round(this.state.time / 1000 * 100) / 100} s</p> */}
+        {/* <p>Dist: {Math.round(this.state.distance * 100) / 100} m</p> */}
+        {/* <p>Velocity Max: {Math.round(this.getVelocityMax() * 100) / 100} m/s</p> */}
+        {/* <p>Acceleration: {Math.round(this.getAcceleration() * 100) / 100} m/s2</p> */}
+        <p>Velocity: {Math.round(this.state.velocity * 100) / 100} m/s ({Math.round(this.getVelocityMax() * 100) / 100} m/s max)</p>
       </div>
     )
   }

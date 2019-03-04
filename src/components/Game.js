@@ -1,4 +1,5 @@
 import React from 'react'
+import Chart from './Chart'
 
 class Game extends React.Component {
 
@@ -34,7 +35,7 @@ class Game extends React.Component {
     })
     this.timer = setInterval(() => this.setState({ 
       time: Date.now() - this.state.start,
-      distance: this.state.distance + this.state.velocity * 1000 / 1000,
+      distance: Math.min(this.state.distance + this.state.velocity * 1000 / 1000, 100),
       velocity: this.updateVelocity()
     }), 1000)
   }
@@ -110,7 +111,7 @@ class Game extends React.Component {
   }
 
   render() {
-    if (this.state.time >= 6000) {
+    if (this.state.time >= 60000 || this.state.distance >= 100) {
         this.stopTimer()
         document.getElementById("start-btn").disabled = false
     }
@@ -119,6 +120,7 @@ class Game extends React.Component {
       <div>
         {/* <h3>Game</h3> */}
         <img className="img-cyclist" src="/cyclist.gif" alt="" />
+        <Chart distance={this.state.distance} />
         <p><button id="start-btn" onClick={this.onClickStart}>Start</button></p>
         <p>Time: {Math.round(this.state.time / 1000 * 100) / 100} s</p>
         <p>Dist: {Math.round(this.state.distance * 100) / 100} m</p>

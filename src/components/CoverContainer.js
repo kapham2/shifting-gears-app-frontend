@@ -7,8 +7,9 @@ import Stats from './Stats'
 class CoverContainer extends React.Component {
 
   state = {
-    active: "Game",
-    signedIn: true
+    active: "Sign in",
+    signedIn: false,
+    userId: 0
   }
 
   onClickNav = (e) => {
@@ -31,10 +32,18 @@ class CoverContainer extends React.Component {
   }
 
   onClickLogout = (e) => {
-    this.updateSignedIn()
-    this.updateActive("Sign in")
+    this.setState({
+      active: "Sign in",
+      signedIn: !this.state.signedIn,
+      userId: 0
+    })
     document.getElementsByClassName("nav-link active")[0].classList.remove("active")
     document.getElementsByClassName("nav-link")[0].classList.add("active")
+    localStorage.clear()
+  }
+
+  updateUserId = (userId) => {
+    this.setState({ userId: userId })
   }
 
   render() {
@@ -56,7 +65,7 @@ class CoverContainer extends React.Component {
       )
 
       const main_content = !this.state.signedIn
-      ? <SigninForm active={this.state.active} updateSignedIn={this.updateSignedIn} updateActive={this.updateActive} />
+      ? <SigninForm active={this.state.active} updateSignedIn={this.updateSignedIn} updateActive={this.updateActive} updateUserId={this.updateUserId} />
       : this.state.active === "Game" ? <Game updateActive={this.updateActive} /> : <Stats />
 
     return (

@@ -3,6 +3,12 @@ import '../signin.css'
 
 class SigninForm extends React.Component {
 
+  componentDidMount() {
+    this.props.updateActive("Sign in")
+    document.getElementsByClassName("nav-link active")[0].classList.remove("active")
+    document.getElementsByClassName("nav-link")[0].classList.add("active")
+  }
+
   onSubmitForm = (e) => {
     e.preventDefault()
 
@@ -10,7 +16,7 @@ class SigninForm extends React.Component {
     let password
 
     if (e.target.querySelector('input')) {
-      username = e.target.querySelector('input[name="username"]').value
+      username = e.target.querySelector('input[name="username"]').value.toLowerCase()
       password = e.target.querySelector('input[name="password"]').value
     }
 
@@ -32,12 +38,62 @@ class SigninForm extends React.Component {
 
   authenticate = (username, password) => {
     console.log("authenticated!")
+    fetch('http://localhost:3333/api/v1/signin', {
+      method: 'POST',
+      headers: { 'Content-type' : 'application/json' },
+      body: JSON.stringify({
+        user: {
+          username: username,
+          password: password
+        }
+      })
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+      else {
+        throw response
+      }
+    })
+    .then(response => this.setUserAndRedirect(response))
+    .catch(response => response.json().then(response => console.log(response)))
+  }
+      
+  setUserAndRedirect = (response) => {
+    this.props.updateUserId(response.user.id)
+    localStorage.setItem('token', response.token)
     this.updateNav()
   }
 
   signUp = (username, password) => {
     console.log("signed up!")
-    this.updateNav()
+    if (username.includes(" ") || /[~`!@#$%^&*()\-+={[}\]|\\:;"'<,>.?/]/g.test(username)) {
+      console.log({error: "Username can't include special characters"})
+    }
+    else
+    {
+      fetch('http://localhost:3333/api/v1/users', {
+        method: 'POST',
+        headers: { 'Content-type' : 'application/json' },
+        body: JSON.stringify({
+          user: {
+            username: username,
+            password: password
+          }
+        })
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        }
+        else {
+          throw response
+        }
+      })
+      .then(response => this.setUserAndRedirect(response))
+      .catch(response => response.json().then(response => console.log(response)))
+    }
   }
 
   updateNav = () => {

@@ -89,19 +89,6 @@ body {
   }
 }
 
-/* added */
-@media (min-height: 32em) {
-  .main-content-left {
-    float: left;
-    /* border: solid; */
-  }
-  .main-content-right {
-    float: right;
-    /* border:solid; */
-  }
-}
-/* added */
-
 /*
  * Cover
  */

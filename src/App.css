@@ -20,10 +20,13 @@
 }
 
 .img-cyclist {
-  max-width: 5rem;
-  transform: rotate(-15deg);
+  max-width: 2.5rem;
+  /* transform: rotate(-15deg); */
+  transform-origin: bottom center;
+  position: relative;
+  z-index: 1;
 }
 
-.hide-velocity-p {
+.hide-p {
   visibility: hidden;
 }

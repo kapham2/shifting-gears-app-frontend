@@ -9,15 +9,9 @@ class Chart extends React.Component {
       backgroundColor: "transparent",
       colorSet: "colorSet",
       width: 300,
-      height: 100,
+      height: 75,
       interactivityEnabled: false,
       animationEnabled: true,
-      title: { 
-          text: "Elevation",
-          fontColor: "#FFFFFF",
-          fontFamily: "calibri",
-          fontSize: 12
-      },
       axisX: { 
         title: "Distance (m)",
         titleFontColor: "#FFFFFF",
@@ -30,25 +24,27 @@ class Chart extends React.Component {
         tickColor: "transparent",
         gridColor: "transparent",
         includeZero: true,
-        viewportMaximum: 2
+        viewportMaximum: 3,
+        title: "Elev.",
+        titleFontColor: "#FFFFFF"
       },
       toolTip: { shared: true },
       data: [{
         markerType: "none",
-        type: "splineArea",
+        type: "area",
         fillOpacity: 1,
         dataPoints: [
-          { x: 0, y: this.props.elevation[0] },
-          { x: 10, y: this.props.elevation[1] },
-          { x: 20, y: this.props.elevation[2] },
-          { x: 30, y: this.props.elevation[3] },
-          { x: 40, y: this.props.elevation[4] },
-          { x: 50, y: this.props.elevation[5] },
-          { x: 60, y: this.props.elevation[6] },
-          { x: 70, y: this.props.elevation[7] },
-          { x: 80, y: this.props.elevation[8] },
-          { x: 90, y: this.props.elevation[9] },
-          { x: 100, y: this.props.elevation[10] }
+          { x: 0 * this.props.distanceToIndexRatio, y: this.props.elevation[0] },
+          { x: 1 * this.props.distanceToIndexRatio, y: this.props.elevation[1] },
+          { x: 2 * this.props.distanceToIndexRatio, y: this.props.elevation[2] },
+          { x: 3 * this.props.distanceToIndexRatio, y: this.props.elevation[3] },
+          { x: 4 * this.props.distanceToIndexRatio, y: this.props.elevation[4] },
+          { x: 5 * this.props.distanceToIndexRatio, y: this.props.elevation[5] },
+          { x: 6 * this.props.distanceToIndexRatio, y: this.props.elevation[6] },
+          { x: 7 * this.props.distanceToIndexRatio, y: this.props.elevation[7] },
+          { x: 8 * this.props.distanceToIndexRatio, y: this.props.elevation[8] },
+          { x: 9 * this.props.distanceToIndexRatio, y: this.props.elevation[9] },
+          { x: 10 * this.props.distanceToIndexRatio, y: this.props.elevation[10] }
         ]
       },
       {
@@ -57,14 +53,13 @@ class Chart extends React.Component {
         name: "Current Position",
         dataPoints: [
           { x: this.props.distance, y: 0 },
-          { x: this.props.distance, y: 1 },
-          { x: this.props.distance, y: 2 }
+          { x: this.props.distance, y: 3 }
         ]
       }]
     }
 
     CanvasJS.addColorSet("colorSet", ["#566e7a", "#D20155"]);
-		
+  
     return (
       <div>
         <CanvasJSChart options = {options} 

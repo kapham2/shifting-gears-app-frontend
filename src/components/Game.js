@@ -10,22 +10,31 @@ class Game extends React.Component {
     this.forcePedal = 125 // N
     this.lengthCrankArm = 165 //mm
     this.radiusTire = 700 / 2 //mm
-    this.massBikeAndRider = 60 //kg
+    this.massBikeAndRider = 160 //kg
     this.Cr = 0.004 // (coefficient of rolling friction)
     this.Cd = 1 // (coefficient of drag)
     this.ARider = 0.4 //m2 (frontal area of rider)
     this.rho = 1.225 //kg/m3 (air density)
-    this.teethCog = [32, 28, 25, 22, 20, 18, 16, 14, 13, 12, 11]
-    this.elevation = [0.5, 0.5, 1.5, 1.5, 2, 1.5, 1, 1.5, 1.5, 1, 0.5]
+    this.teethCog = [32, 28, 25, 22, 20, 18, 16, 14, 13, 12, 11, 9.4, 8.6, 8, 7.3]
+
+    const elevations = [[1, 1], [2, 2], [3, 3]]
+    let elevation = [1, 1]
+    for (let i = 0; i < 4; i++) {
+      elevation = elevation.concat(elevations[Math.round(Math.random() * (2))])
+    }
+    this.elevation = elevation.concat([1])
+
+    this.distanceToIndexRatio = 10
+
 
     this.state = {
       time: 0,
       start: Date.now(),
       distance: 0, //m
-      velocity: 0.94, //m/s
+      velocity: 0, //m/s
       teethChainring: 32,
       idxTeethCog: 0,
-      grade: 1, //deg
+      grade: 0, //deg
       img: "/cyclist.png"
     }
   }
@@ -33,40 +42,30 @@ class Game extends React.Component {
   startTimer = (e) => {
     console.log("start")
     this.setState({
-      time: 0,
       start: Date.now(),
-      distance: 0,
       img: "/cyclist.gif"
     })
 
+    const milliseconds = 1000 / 4
     this.timer = setInterval(() => this.setState({ 
       time: Date.now() - this.state.start,
-      distance: this.state.distance + this.state.velocity * 1000 / 1000,
-      velocity: this.updateVelocity()
-    }), 1000)
+      distance: this.state.distance + this.state.velocity * milliseconds / 1000,
+      velocity: this.getVelocity(),
+      grade: this.getElevationAndSlope().slope * 20
+    }), milliseconds)
   }
 
   stopTimer = () => {
     console.log("stop")
 
-    if (this.state.distance >= 100) {
-      console.log("", Math.round(this.state.distance * 100) / 100, "m @ " + Math.round((this.state.time / 1000) * 100) / 100, "s")
-      console.log("", Math.round(this.state.distance / (this.state.time / 1000) * 100) / 100, "m/s")
-    }
-
-    this.setState({
-      time: 0,
-      start: Date.now(),
-      distance: 0,
-      velocity: 0,
-      teethChainring: 32,
-      idxTeethCog: 0,
-      grade: 1,
-      img: "/cyclist.png",
-      velocityAvg: (this.state.distance / (this.state.time / 1000))
-    })
+    console.log("", Math.round(this.state.distance * 100) / 100, "m @ " + Math.round((this.state.time / 1000) * 100) / 100, "s")
+    console.log("", Math.round(this.state.distance / (this.state.time / 1000) * 100) / 100, "m/s")
 
     clearInterval(this.timer)
+
+    this.props.updateActive("Stats")
+    document.getElementsByClassName("nav-link active")[0].classList.remove("active")
+    document.getElementsByClassName("nav-link")[1].classList.add("active")
   }
 
   resetTimer = () => {
@@ -76,7 +75,8 @@ class Game extends React.Component {
 
   onClickStart = (e) => {
     if (this.state.time === 0) {
-      document.getElementById("velocity-p").classList.remove("hide-velocity-p")
+      document.getElementById("acceleration-p").classList.remove("hide-p")
+      document.getElementById("velocity-p").classList.remove("hide-p")
       this.startTimer()
     }
   }
@@ -102,7 +102,7 @@ class Game extends React.Component {
     return forceNet / this.massBikeAndRider
   }
 
-  updateVelocity = () => {
+  getVelocity = () => {
     // console.log("velocityMax:", this.getVelocityMax())
     // console.log("acceleration:", this.getAcceleration())
     // console.log("velocity:", this.state.velocity)
@@ -111,9 +111,18 @@ class Game extends React.Component {
     const acceleration = this.getAcceleration()
 
     if (this.state.grade >= 0) {
-      if (this.state.velocity + acceleration <= 0) {
-        console.log("change to a lower gear")
+      if (this.state.velocity + acceleration <= 0 && acceleration < 0) {
+        console.log("end game")
+        this.stopTimer()
         return 0
+      }
+      else if (this.state.velocity + acceleration <= 0) {
+        console.log("change to a lower gear")
+        return 0        
+      }
+      else if (this.state.velocity + acceleration < this.state.velocity) {
+        console.log("change to a lower gear")
+        return this.state.velocity + acceleration
       }
       else if (this.state.velocity + acceleration <= velocityMax) {
         console.log("OK")
@@ -162,28 +171,56 @@ class Game extends React.Component {
     }
   }
 
+  getElevationAndSlope = () => {
+    
+    if (this.state.distance !== 0 && this.state.distance < 100) {
+      const distanceIntervals = this.elevation.length - 1
+      
+      const previousIndex = Math.floor(this.state.distance / distanceIntervals)
+      const nextIndex = Math.ceil(this.state.distance / distanceIntervals)
+
+      const previousDistance = previousIndex * this.distanceToIndexRatio
+      const nextDistance = nextIndex * this.distanceToIndexRatio
+      
+      const previousElevation = this.elevation[previousIndex]
+      const nextElevation = this.elevation[nextIndex]
+  
+      const distanceDiff = nextDistance - previousDistance
+      const elevationDiff = nextElevation - previousElevation
+      const slope = elevationDiff / distanceDiff
+        
+      const elevation = slope * (this.state.distance - previousDistance) + previousElevation
+
+      return { elevation: elevation, slope: slope }
+    }
+    else {
+      return { elevation: 1, slope: 0 }
+    }
+    
+  }
+
   render() {
     if (this.state.distance >= 100) {
         this.stopTimer()
     }
 
+    const imgCyclistStyle = {
+      left: -115 + this.state.distance * 2.35,
+      top: 40 - this.getElevationAndSlope().elevation * 9.25,
+      transform: `rotate(${-Math.atan(this.getElevationAndSlope().slope) * 9.25 / 2.35}rad)`,
+    }
+
     return (
       <div>
-        <div className="main-content-left">
-          <img className="img-cyclist" src={this.state.img} alt="" />
-          <Chart distance={this.state.distance} elevation={this.elevation} />
-        </div>
-        <div className="main-content-right">
-          <p><button className="btn shadow-sm btn-sm" id="start-btn" onClick={this.onClickStart}>Start</button>{" "}
+          <img className="img-cyclist" src={this.state.img} style={imgCyclistStyle} alt="" />
+          <Chart distance={this.state.distance} elevation={this.elevation} distanceToIndexRatio={this.distanceToIndexRatio} />
+          <p>
+            <button className="btn shadow-sm btn-sm" id="start-btn" onClick={this.onClickStart}>Start</button>{" "}
             <button className="btn shadow-sm btn-sm" id="shift-up-btn" onClick={this.onClickShiftUp}>Shift Up</button>{" "}
             <button className="btn shadow-sm btn-sm" id="shift-down-btn" onClick={this.onClickShiftDown}>Shift Down</button>
           </p>
-          {/* <p>Time: {Math.round(this.state.time / 1000 * 100) / 100} s</p> */}
-          {/* <p>Dist: {Math.round(this.state.distance * 100) / 100} m</p> */}
-          {/* <p>Velocity Max: {Math.round(this.getVelocityMax() * 100) / 100} m/s</p> */}
-          {/* <p>Acceleration: {Math.round(this.getAcceleration() * 100) / 100} m/s2</p> */}
-          <p className="hide-velocity-p" id="velocity-p">Velocity: {Math.round(this.state.velocity * 100) / 100} m/s ({Math.round(this.getVelocityMax() * 100) / 100} m/s max)</p>
-        </div>
+          <p className="hide-p" id="acceleration-p">acc = {Math.round(this.getAcceleration() * 100) / 100} m/s<sup>2</sup></p>
+          <p className="hide-p" id="velocity-p">v<sub>i</sub> = {Math.round(this.state.velocity * 100) / 100} m/s (v<sub>max</sub> = {Math.round(this.getVelocityMax() * 100) / 100} m/s)</p>
       </div>
     )
   }

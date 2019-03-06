@@ -80,7 +80,7 @@ class Game extends React.Component {
       avgVelocity = this.state.distance / (this.state.time / 1000)
     }
 
-    fetch('http://localhost:3333/api/v1/games', {
+    fetch('https://shifting-gears-app-backend.herokuapp.com/api/v1/games', {
       method: 'POST',
       headers: {
         'Content-type' : 'application/json',

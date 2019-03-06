@@ -39,7 +39,7 @@ class SigninForm extends React.Component {
 
   authenticate = (username, password) => {
     console.log("authenticated!")
-    fetch('http://localhost:3333/api/v1/signin', {
+    fetch('https://shifting-gears-app-backend.herokuapp.com/api/v1/signin', {
       method: 'POST',
       headers: { 'Content-type' : 'application/json' },
       body: JSON.stringify({
@@ -74,7 +74,7 @@ class SigninForm extends React.Component {
     }
     else
     {
-      fetch('http://localhost:3333/api/v1/users', {
+      fetch('https://shifting-gears-app-backend.herokuapp.com/api/v1/users', {
         method: 'POST',
         headers: { 'Content-type' : 'application/json' },
         body: JSON.stringify({

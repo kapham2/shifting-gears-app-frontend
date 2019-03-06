@@ -12,7 +12,7 @@ class Stats extends React.Component {
 
   componentDidMount() {
     this._isMounted = true
-    fetch('http://localhost:3333/api/v1/games/top-10', {
+    fetch('https://shifting-gears-app-backend.herokuapp.com/api/v1/games/top-10', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

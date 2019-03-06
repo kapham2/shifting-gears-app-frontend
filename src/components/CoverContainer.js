@@ -66,7 +66,7 @@ class CoverContainer extends React.Component {
 
       const main_content = !this.state.signedIn
       ? <SigninForm active={this.state.active} updateSignedIn={this.updateSignedIn} updateActive={this.updateActive} updateUserId={this.updateUserId} />
-      : this.state.active === "Game" ? <Game updateActive={this.updateActive} /> : <Stats user_id={this.state.user_id} />
+      : this.state.active === "Game" ? <Game updateActive={this.updateActive} userId={this.state.userId} /> : <Stats />
 
     return (
       <div className="cover-container d-flex w-100 h-100 p-2 mx-auto flex-column">

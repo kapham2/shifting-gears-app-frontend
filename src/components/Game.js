@@ -39,8 +39,8 @@ class Game extends React.Component {
     }
   }
 
-  startTimer = (e) => {
-    console.log("start")
+  startTimer = () => {
+    // console.log("start")
     this.setState({
       start: Date.now(),
       distance: 0,
@@ -60,19 +60,55 @@ class Game extends React.Component {
   }
 
   stopTimer = () => {
-    console.log("stop")
+    // console.log("stop")
 
-    console.log("", Math.round(this.state.distance * 100) / 100, "m @ " + Math.round((this.state.time / 1000) * 100) / 100, "s")
-    console.log("", Math.round(this.state.distance / (this.state.time / 1000) * 100) / 100, "m/s")
+    this.createGame()
 
     clearInterval(this.timer)
-
+    
     document.getElementById("shift-up-btn").disabled = true
     document.getElementById("shift-down-btn").disabled = true
   }
+  
+  createGame = () => {    
+    let avgVelocity
+
+    if (this.state.distance === 0 && this.state.time === 0) {
+      avgVelocity = 0
+    }
+    else {
+      avgVelocity = this.state.distance / (this.state.time / 1000)
+    }
+
+    fetch('http://localhost:3333/api/v1/games', {
+      method: 'POST',
+      headers: {
+        'Content-type' : 'application/json',
+        'Authorization' : `Bearer ${localStorage.getItem("token")}`
+      },
+      body: JSON.stringify({
+        game: {
+          user_id: this.props.userId,
+          distance: this.state.distance, //m
+          time: this.state.time / 1000, //s
+          avg_velocity: avgVelocity, //m/s
+        }
+      })
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+      else {
+        throw response
+      }
+    })
+    // .then(response => console.log(response))
+    .catch(response => response.json().then(response => console.log(response)))
+  }
 
   resetTimer = () => {
-    console.log("reset")
+    // console.log("reset")
     this.setState({ time: 0 })
   }
 
@@ -86,7 +122,7 @@ class Game extends React.Component {
   }
 
   componentWillUnmount () {
-    this.stopTimer()
+    clearInterval(this.timer)
   }
 
   getVelocityMax = () => {
@@ -112,35 +148,35 @@ class Game extends React.Component {
 
     if (this.state.grade >= 0) {
       if (this.state.velocity + acceleration <= 0 && acceleration < 0) {
-        console.log("end game; velocity < 0 && acceleration < 0")
+        // console.log("end game; velocity < 0 && acceleration < 0")
         this.setState({ img: "/cyclist.png" })
         this.stopTimer()
         return 0
       }
       else if (this.state.velocity + acceleration <= 0) {
-        console.log("change to a lower gear")
+        // console.log("change to a lower gear")
         return 0        
       }
       else if (this.state.velocity + acceleration < this.state.velocity) {
-        console.log("change to a lower gear")
+        // console.log("change to a lower gear")
         return this.state.velocity + acceleration
       }
       else if (this.state.velocity + acceleration <= velocityMax) {
-        console.log("OK")
+        // console.log("OK")
         return this.state.velocity + acceleration
       }
       else {
-        console.log("change to a higher gear")
+        // console.log("change to a higher gear")
         return velocityMax
       }
     }
     else {
       if (this.state.velocity + acceleration >= velocityMax){
-        console.log("change to a higher gear")
+        // console.log("change to a higher gear")
         return this.state.velocity + acceleration
       }
       else {
-        console.log("OK")
+        // console.log("OK")
         return this.state.velocity + acceleration
       }
     }
@@ -150,7 +186,7 @@ class Game extends React.Component {
     const nextDistance = this.state.distance + this.state.velocity * milliseconds / 1000
 
     if (nextDistance >= 100) {
-      console.log("end game; distance > 100m")
+      // console.log("end game; distance > 100m")
       this.setState({ img: "/cyclist.png"})
       this.stopTimer()
     }

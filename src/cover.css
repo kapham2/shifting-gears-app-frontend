@@ -113,7 +113,7 @@ body {
 }
 
 /* added */
-.cover .btn:hover {
+.cover .btn:hover:not([disabled]) {
   color: rgba(25, 45, 75, .95);
   background-color: #fff;
   border: .05rem solid #fff;

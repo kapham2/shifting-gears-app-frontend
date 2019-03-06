@@ -67,9 +67,8 @@ class Game extends React.Component {
 
     clearInterval(this.timer)
 
-    // this.props.updateActive("Stats")
-    // document.getElementsByClassName("nav-link active")[0].classList.remove("active")
-    // document.getElementsByClassName("nav-link")[1].classList.add("active")
+    document.getElementById("shift-up-btn").disabled = true
+    document.getElementById("shift-down-btn").disabled = true
   }
 
   resetTimer = () => {
@@ -79,6 +78,7 @@ class Game extends React.Component {
 
   onClickStart = (e) => {
     if (this.state.time === 0) {
+      document.getElementById("start-btn").disabled = true
       document.getElementById("acceleration-p").classList.remove("hide-p")
       document.getElementById("velocity-p").classList.remove("hide-p")
       this.startTimer()

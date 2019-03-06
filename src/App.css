@@ -3,7 +3,7 @@
   width: 100vw;
   height: 100vh;
   min-height: 16rem;
-  background-image: url('/background.jpeg');
+  background-image: url('https://kapham2.github.io/shifting-gears-app-frontend/background.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;

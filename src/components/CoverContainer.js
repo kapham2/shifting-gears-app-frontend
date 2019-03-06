@@ -73,7 +73,7 @@ class CoverContainer extends React.Component {
         <header className="masthead mb-auto">
           <div className="inner">
             <h4 className="masthead-brand">
-              <img className="img-icon" src="/icon.png" alt="" /> Shifting Gears
+              <img className="img-icon" src={process.env.PUBLIC_URL + "/icon.png"} alt="" /> Shifting Gears
             </h4>
             { nav }
           </div>

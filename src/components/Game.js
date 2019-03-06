@@ -279,7 +279,7 @@ class Game extends React.Component {
 
     return (
       <div>
-          <img className="img-cyclist" src={this.state.img} style={imgCyclistStyle} alt="" />
+          <img className="img-cyclist" src={process.env.PUBLIC_URL + this.state.img} style={imgCyclistStyle} alt="" />
           <Chart distance={this.state.distance} elevation={this.elevation} distanceToIndexRatio={this.distanceToIndexRatio} />
           <p>
             <button className="btn shadow-sm btn-sm" id="start-btn" onClick={this.onClickStart}>Start</button>{" "}

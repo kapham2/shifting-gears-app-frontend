@@ -4,6 +4,7 @@ import '../signin.css'
 class SigninForm extends React.Component {
 
   componentDidMount() {
+    localStorage.clear()
     this.props.updateActive("Sign in")
     document.getElementsByClassName("nav-link active")[0].classList.remove("active")
     document.getElementsByClassName("nav-link")[0].classList.add("active")

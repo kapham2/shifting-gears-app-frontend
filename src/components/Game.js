@@ -18,11 +18,11 @@ class Game extends React.Component {
     this.teethCog = [32, 28, 25, 22, 20, 18, 16, 14, 13, 12, 11, 9.4, 8.6, 8, 7.3]
 
     const elevations = [[1, 1], [2, 2], [3, 3]]
-    let elevation = [1, 1]
-    for (let i = 0; i < 4; i++) {
+    let elevation = [1, 1, 1]
+    for (let i = 0; i < 3; i++) {
       elevation = elevation.concat(elevations[Math.round(Math.random() * (2))])
     }
-    this.elevation = elevation.concat([1])
+    this.elevation = elevation.concat([1, 1])
 
     this.distanceToIndexRatio = 10
 
@@ -43,13 +43,17 @@ class Game extends React.Component {
     console.log("start")
     this.setState({
       start: Date.now(),
+      distance: 0,
+      velocity: 0,
+      idxTeethCog: 0,
+      grade: 0,
       img: "/cyclist.gif"
     })
 
     const milliseconds = 1000 / 4
     this.timer = setInterval(() => this.setState({ 
       time: Date.now() - this.state.start,
-      distance: this.state.distance + this.state.velocity * milliseconds / 1000,
+      distance: this.getDistance(milliseconds),
       velocity: this.getVelocity(),
       grade: this.getElevationAndSlope().slope * 20
     }), milliseconds)
@@ -63,9 +67,9 @@ class Game extends React.Component {
 
     clearInterval(this.timer)
 
-    this.props.updateActive("Stats")
-    document.getElementsByClassName("nav-link active")[0].classList.remove("active")
-    document.getElementsByClassName("nav-link")[1].classList.add("active")
+    // this.props.updateActive("Stats")
+    // document.getElementsByClassName("nav-link active")[0].classList.remove("active")
+    // document.getElementsByClassName("nav-link")[1].classList.add("active")
   }
 
   resetTimer = () => {
@@ -103,16 +107,13 @@ class Game extends React.Component {
   }
 
   getVelocity = () => {
-    // console.log("velocityMax:", this.getVelocityMax())
-    // console.log("acceleration:", this.getAcceleration())
-    // console.log("velocity:", this.state.velocity)
-
     const velocityMax = this.getVelocityMax()
     const acceleration = this.getAcceleration()
 
     if (this.state.grade >= 0) {
       if (this.state.velocity + acceleration <= 0 && acceleration < 0) {
-        console.log("end game")
+        console.log("end game; velocity < 0 && acceleration < 0")
+        this.setState({ img: "/cyclist.png" })
         this.stopTimer()
         return 0
       }
@@ -145,6 +146,18 @@ class Game extends React.Component {
     }
   }
 
+  getDistance = (milliseconds) => {
+    const nextDistance = this.state.distance + this.state.velocity * milliseconds / 1000
+
+    if (nextDistance >= 100) {
+      console.log("end game; distance > 100m")
+      this.setState({ img: "/cyclist.png"})
+      this.stopTimer()
+    }
+
+    return this.state.distance + this.state.velocity * milliseconds / 1000
+  }
+
   onClickShiftUp = () => {
     if (this.state.time > 0) {
       
@@ -173,25 +186,45 @@ class Game extends React.Component {
 
   getElevationAndSlope = () => {
     
-    if (this.state.distance !== 0 && this.state.distance < 100) {
+    if (this.state.distance !== 0) {
       const distanceIntervals = this.elevation.length - 1
       
       const previousIndex = Math.floor(this.state.distance / distanceIntervals)
       const nextIndex = Math.ceil(this.state.distance / distanceIntervals)
-
-      const previousDistance = previousIndex * this.distanceToIndexRatio
-      const nextDistance = nextIndex * this.distanceToIndexRatio
       
-      const previousElevation = this.elevation[previousIndex]
-      const nextElevation = this.elevation[nextIndex]
-  
-      const distanceDiff = nextDistance - previousDistance
-      const elevationDiff = nextElevation - previousElevation
-      const slope = elevationDiff / distanceDiff
+      if (this.state.distance < 100) {
+        const previousDistance = previousIndex * this.distanceToIndexRatio
+        const nextDistance = nextIndex * this.distanceToIndexRatio
         
-      const elevation = slope * (this.state.distance - previousDistance) + previousElevation
+        const previousElevation = this.elevation[previousIndex]
+        const nextElevation = this.elevation[nextIndex]
+    
+        const distanceDiff = nextDistance - previousDistance
+        const elevationDiff = nextElevation - previousElevation
 
-      return { elevation: elevation, slope: slope }
+        const slope = elevationDiff / distanceDiff
+
+        const elevation = slope * (this.state.distance - previousDistance) + previousElevation
+
+        return { elevation: elevation, slope: slope }
+      }
+      else {
+        const lastIndex = this.elevation.length - 1
+        const nextLastIndex = lastIndex - 1
+
+        const lastDistance = lastIndex * this.distanceToIndexRatio
+        const nextLastDistance = nextLastIndex * this.distanceToIndexRatio
+
+        const lastElevation = this.elevation[lastIndex]
+        const nextLastElevation = this.elevation[nextLastIndex]
+
+        const distDiff = lastDistance - nextLastDistance
+        const elevDiff = lastElevation - nextLastElevation
+
+        const lastSlope = elevDiff / distDiff
+
+        return { elevation: lastElevation, slope: lastSlope }
+      }
     }
     else {
       return { elevation: 1, slope: 0 }
@@ -200,9 +233,7 @@ class Game extends React.Component {
   }
 
   render() {
-    if (this.state.distance >= 100) {
-        this.stopTimer()
-    }
+    // console.log("this.state", this.state)
 
     const imgCyclistStyle = {
       left: -115 + this.state.distance * 2.35,

@@ -26,7 +26,6 @@ class Game extends React.Component {
 
     this.distanceToIndexRatio = 10
 
-
     this.state = {
       time: 0,
       start: Date.now(),
@@ -79,6 +78,7 @@ class Game extends React.Component {
     else {
       avgVelocity = this.state.distance / (this.state.time / 1000)
     }
+    // console.log("avgVelocity", avgVelocity)
 
     fetch('https://shifting-gears-app-backend.herokuapp.com/api/v1/games', {
       method: 'POST',
@@ -130,7 +130,7 @@ class Game extends React.Component {
   }
   
   getAcceleration = () => {
-    const forceForward = this.forcePedal * (this.lengthCrankArm * this.teethCog[this.state.idxTeethCog]) / (this.teethCog[this.state.idxTeethCog] * this.radiusTire)
+    const forceForward = this.forcePedal * (this.lengthCrankArm * this.teethCog[this.state.idxTeethCog]) / (this.state.teethChainring * this.radiusTire)
   
     const forceResistGravity = -(this.massBikeAndRider * 9.81 * Math.sin(this.state.grade * 3.14 / 180))
     const forceResistRolling = -(this.Cr * this.massBikeAndRider * 9.81 * Math.cos(this.state.grade * 3.14 / 180))

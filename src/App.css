@@ -30,3 +30,7 @@
 .hide-p {
   visibility: hidden;
 }
+
+.shift-btn {
+  touch-action: manipulation;
+}

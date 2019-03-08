@@ -283,8 +283,8 @@ class Game extends React.Component {
           <Chart distance={this.state.distance} elevation={this.elevation} distanceToIndexRatio={this.distanceToIndexRatio} />
           <p>
             <button className="btn shadow-sm btn-sm" id="start-btn" onClick={this.onClickStart}>Start</button>{" "}
-            <button className="btn shadow-sm btn-sm" id="shift-up-btn" onClick={this.onClickShiftUp}>Shift Up</button>{" "}
-            <button className="btn shadow-sm btn-sm" id="shift-down-btn" onClick={this.onClickShiftDown}>Shift Down</button>
+            <button className="btn shadow-sm btn-sm shift-btn" id="shift-up-btn" onClick={this.onClickShiftUp}>Shift Up</button>{" "}
+            <button className="btn shadow-sm btn-sm shift-btn" id="shift-down-btn" onClick={this.onClickShiftDown}>Shift Down</button>
           </p>
           <p className="hide-p" id="acceleration-p">acc = {Math.round(this.getAcceleration() * 100) / 100} m/s<sup>2</sup></p>
           <p className="hide-p" id="velocity-p">v<sub>i</sub> = {Math.round(this.state.velocity * 100) / 100} m/s (v<sub>max</sub> = {Math.round(this.getVelocityMax() * 100) / 100} m/s)</p>

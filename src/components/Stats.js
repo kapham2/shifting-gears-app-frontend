@@ -37,8 +37,7 @@ class Stats extends React.Component {
             <tr>
               <th scope="col">#</th>
               <th scope="col">Name</th>
-              <th scope="col">(m)</th>
-              <th scope="col">(m/s)</th>
+              <th scope="col">Score</th>
             </tr>
           </thead>
           <tbody>
@@ -49,7 +48,6 @@ class Stats extends React.Component {
                   <tr key={stat.id}>
                     <th scope="row">{rank}</th>
                     <td>{stat.user.username}</td>
-                    <td>{Math.round(stat.distance * 100) / 100}</td>
                     <td>{Math.round(stat.avg_velocity * 100) / 100}</td>
                   </tr>
                 )

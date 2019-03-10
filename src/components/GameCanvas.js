@@ -34,9 +34,11 @@ export default class GameCanvas extends Component {
     context.translate(0, this.height)
 
     this.drawElevation(context)
-
+    
     this.drawCyclist(context, img)
-
+    
+    this.drawTick(context)
+    
     context.translate(0, -this.height)
   }
   
@@ -58,6 +60,17 @@ export default class GameCanvas extends Component {
     context.lineTo(this.width, 0);
     context.fillStyle = "#566E7A"
     context.fill();
+  }
+
+  drawTick = (context) => {
+    context.beginPath()
+    const xStart = this.props.distance * this.distanceScale + this.imgWidth / 2
+    context.moveTo(xStart, 0)
+    context.lineTo(xStart, -Math.max(...this.props.elevation) * this.elevationScale)
+    context.strokeStyle = "#D20155";
+    context.lineWidth = 2;
+    context.stroke()
+
   }
 
   updateFrame = () =>{

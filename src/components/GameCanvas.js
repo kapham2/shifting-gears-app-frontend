@@ -4,41 +4,60 @@ export default class GameCanvas extends Component {
   componentDidMount() {
     this.width = 300
     this.height = 80
-    
-    this.offsetX = 25
+    this.imgWidth = 50
+    this.contextScale = 10
+    this.elevationScale = 10
     this.frame = 0
 
+    this.indexLast = this.props.elevation.length - 1
+    this.distanceTotal = this.indexLast * this.props.distanceToIndexRatio
+    this.distanceScale = (this.width - this.imgWidth) / this.distanceTotal
+
     const canvas = this.refs.elevationGraph
-    canvas.width = 3000
-    canvas.height = 800
-    canvas.style.width = "300px"
-    canvas.style.height = "80px"
+    canvas.width = this.width * this.contextScale
+    canvas.height = this.height * this.contextScale
+    canvas.style.width = `${this.width}px`
+    canvas.style.height = `${this.height}px`
     
     const context = canvas.getContext("2d")
-    context.scale(10, 10)
+    context.scale(this.contextScale, this.contextScale)
     
-    const img = new Image();
+    const img = new Image()
+    img.src = `${process.env.PUBLIC_URL + "/cyclist-sprite-sheet.png"}`
+    this.spriteWidth = 400
 
-    this.timer = setInterval(() => this.drawElevationAndCyclist(context, img), 50)
+    this.timer = setInterval(() => this.drawGame(context, img), 50)
   }
 
-  drawElevationAndCyclist = (context, img) => {
+  drawGame = (context, img) => {
     context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+    context.translate(0, this.height)
 
-    context.beginPath();
-    context.lineTo(0, this.height);
-    context.lineTo(0, this.height - this.props.elevation[0] * 10);
-    this.props.elevation.forEach((elevation, index) => {
-      return context.lineTo((index * this.props.distanceToIndexRatio * (this.width - 2 * this.offsetX) / 100) + this.offsetX, this.height - elevation * 10);
-    })
-    context.lineTo(((this.props.elevation.length - 1) * this.props.distanceToIndexRatio * (this.width - 2 * this.offsetX) / 100) + 2 * this.offsetX, this.height - this.props.elevation[this.props.elevation.length - 1] * 10);
-    context.lineTo(((this.props.elevation.length - 1) * this.props.distanceToIndexRatio * (this.width - 2 * this.offsetX) / 100) + 2 * this.offsetX, this.height);
-    context.fillStyle = "#566E7A"
-    context.fill();
-
-    img.src = `${process.env.PUBLIC_URL + "/cyclist-sprite-sheet.png"}`
+    this.drawElevation(context)
 
     this.drawCyclist(context, img)
+
+    context.translate(0, -this.height)
+  }
+  
+  drawElevation = (context) => {
+    const yElevationFirst = -this.props.elevation[0] * this.elevationScale
+    const yElevationLast = -this.props.elevation[this.indexLast] * this.elevationScale
+    
+    context.beginPath();
+    context.moveTo(0, 0);
+    context.lineTo(0, yElevationFirst);
+
+    this.props.elevation.forEach((elevation, index) => {
+      const xDistance = index * this.props.distanceToIndexRatio * this.distanceScale + this.imgWidth / 2
+      const yElevation = -elevation * this.elevationScale
+      return context.lineTo(xDistance, yElevation);
+    })
+
+    context.lineTo(this.width, yElevationLast);
+    context.lineTo(this.width, 0);
+    context.fillStyle = "#566E7A"
+    context.fill();
   }
 
   updateFrame = () =>{
@@ -55,17 +74,23 @@ export default class GameCanvas extends Component {
   }
 
   drawCyclist = (context, img) => {
-    //Drawing the image 
+    // translate canvas origin to point of rotation
+    const xTranslate = this.props.distance * this.distanceScale + this.imgWidth / 2
+    const yTranslate = -(this.props.elevationAndSlope.elevation * this.elevationScale)
+    context.translate(xTranslate, yTranslate);
+
+    const angle = -Math.atan(this.props.elevationAndSlope.slope * this.elevationScale / this.distanceScale)
+    context.rotate(angle)
+
+    const xSrc = this.props.img === "/cyclist.png" ? 0 : this.updateFrame()
+
+    // position top left point of image so that bottom middle of the image is at origin
+    const x = -this.imgWidth / 2
+    const y = -this.imgWidth
+    context.drawImage(img, xSrc, 0, this.spriteWidth, this.spriteWidth, x, y, this.imgWidth, this.imgWidth);
     
-    context.translate(this.props.distance * (this.width - 2 * this.offsetX) / 100 + 25, 30 - this.props.elevationAndSlope.elevation * 10 + 50);
-    context.rotate(-Math.atan(this.props.elevationAndSlope.slope * 10 / ((this.width - 2 * this.offsetX) / 100)))
-    // context.drawImage(img,this.props.img === "/cyclist.png" ? 0 : this.updateFrame(),0,400,400,this.props.distance * (this.width - 2 * this.offsetX) / 100,30 - this.props.elevationAndSlope.elevation * 10,50,50);
-    context.drawImage(img,this.props.img === "/cyclist.png" ? 0 : this.updateFrame(),0,400,400,-25,-50,50,50);
-
-    context.rotate(Math.atan(this.props.elevationAndSlope.slope * 10 / ((this.width - 2 * this.offsetX) / 100)))
-    context.translate(-(this.props.distance * (this.width - 2 * this.offsetX) / 100 + 25), -(30 - this.props.elevationAndSlope.elevation * 10 + 50));
-
-
+    context.rotate(-angle)
+    context.translate(-xTranslate, -yTranslate);
   }
 
   componentWillUnmount () {

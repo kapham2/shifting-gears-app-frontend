@@ -1,5 +1,6 @@
 import React from 'react'
-import Chart from './Chart'
+// import Chart from './Chart'
+import GameCanvas from './GameCanvas'
 
 class Game extends React.Component {
 
@@ -49,13 +50,13 @@ class Game extends React.Component {
       img: "/cyclist.gif"
     })
 
-    const milliseconds = 1000 / 4
+    this.milliseconds = 1000 / 4
     this.timer = setInterval(() => this.setState({ 
       time: Date.now() - this.state.start,
-      distance: this.getDistance(milliseconds),
+      distance: this.getDistance(this.milliseconds),
       velocity: this.getVelocity(),
-      grade: this.getElevationAndSlope().slope * 20
-    }), milliseconds)
+      grade: this.getElevationAndSlope().slope * 10
+    }), this.milliseconds)
   }
 
   stopTimer = () => {
@@ -271,16 +272,17 @@ class Game extends React.Component {
   render() {
     // console.log("this.state", this.state)
 
-    const imgCyclistStyle = {
-      left: -115 + this.state.distance * 2.35,
-      top: 40 - this.getElevationAndSlope().elevation * 9.25,
-      transform: `rotate(${-Math.atan(this.getElevationAndSlope().slope) * 9.25 / 2.35}rad)`,
-    }
+    // const imgCyclistStyle = {
+    //   left: -115 + this.state.distance * 2.35,
+    //   top: 40 - this.getElevationAndSlope().elevation * 9.25,
+    //   transform: `rotate(${-Math.atan(this.getElevationAndSlope().slope) * 9.25 / 2.35}rad)`,
+    // }
 
     return (
       <div>
-          <img className="img-cyclist" src={process.env.PUBLIC_URL + this.state.img} style={imgCyclistStyle} alt="" />
-          <Chart distance={this.state.distance} elevation={this.elevation} distanceToIndexRatio={this.distanceToIndexRatio} />
+          {/* <img className="img-cyclist" src={process.env.PUBLIC_URL + this.state.img} style={imgCyclistStyle} alt="" /> */}
+          {/* <Chart distance={this.state.distance} elevation={this.elevation} distanceToIndexRatio={this.distanceToIndexRatio} /> */}
+          <GameCanvas elevationAndSlope={this.getElevationAndSlope()} distance={this.state.distance} elevation={this.elevation} distanceToIndexRatio={this.distanceToIndexRatio} img={this.state.img} />
           <p>
             <button className="btn shadow-sm btn-sm" id="start-btn" onClick={this.onClickStart}>Start</button>{" "}
             <button className="btn shadow-sm btn-sm shift-btn" id="shift-up-btn" onClick={this.onClickShiftUp}>Shift Up</button>{" "}

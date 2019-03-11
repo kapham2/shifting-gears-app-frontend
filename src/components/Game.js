@@ -295,7 +295,7 @@ class Game extends React.Component {
       <div>
           {/* <img className="img-cyclist" src={process.env.PUBLIC_URL + this.state.img} style={imgCyclistStyle} alt="" /> */}
           {/* <Chart distance={this.state.distance} elevation={this.elevation} distanceToIndexRatio={this.distanceToIndexRatio} /> */}
-          <GameCanvas elevationAndSlope={this.getElevationAndSlope()} distance={this.state.distance} elevation={this.elevation} distanceToIndexRatio={this.distanceToIndexRatio} img={this.state.img} velocityMax={this.velocityMax} velocity={this.state.velocity} idxTeethCog={this.state.idxTeethCog} />
+          <GameCanvas elevationAndSlope={this.getElevationAndSlope()} distance={this.state.distance} elevation={this.elevation} distanceToIndexRatio={this.distanceToIndexRatio} img={this.state.img} velocityMax={this.velocityMax} velocity={this.state.velocity} idxTeethCog={this.state.idxTeethCog} time={this.state.time} />
           <p>
             <button className="btn shadow-sm btn-sm" id="start-btn" onClick={this.onClickStart}>Start</button>{" "}
             <button className="btn shadow-sm btn-sm shift-btn" id="shift-up-btn" onClick={this.onClickShiftUp}>Shift Up</button>{" "}

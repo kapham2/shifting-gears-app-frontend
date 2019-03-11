@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class GameCanvas extends Component {
   componentDidMount() {
     this.width = 300
-    this.height = 80
+    this.height = 100
     this.imgWidth = 50
     this.contextScale = 10
     this.elevationScale = 10
@@ -65,6 +65,11 @@ export default class GameCanvas extends Component {
   }
 
   drawVelocityScale = (context) => {
+    context.font = "bold 18px Helvetica Neue";
+    context.textAlign = "left"
+    context.fillStyle = "#FFFFFF"
+    context.fillText(`Score: ${this.props.time === 0 ? 0 : Math.round(this.props.distance / (this.props.time / 1000) * 100) / 100}`, this.width / 2, -85)
+
     context.beginPath()
     context.moveTo(0, 60)
     context.lineTo(this.width, 60)
@@ -72,9 +77,7 @@ export default class GameCanvas extends Component {
     context.lineWidth = 3;
     context.stroke()
 
-    context.font = "bold 18px Helvetica Neue";
     context.textAlign = "center"
-    context.fillStyle = "#FFFFFF"
     context.fillText("Max Velocity in Current Gear", this.width / 2, 40)
 
     for (let i = 0; i < this.props.velocityMax.length; i++) {
@@ -93,7 +96,7 @@ export default class GameCanvas extends Component {
     context.lineWidth = 3;
     context.stroke()
     context.fillStyle = "#D20155"
-    context.fillText("Current Velocity", this.width / 2, 90)
+    context.fillText(`Current Velocity: ${Math.round(this.props.velocity * 100) / 100}`, this.width / 2, 90)
   }
 
   drawTick = (context) => {

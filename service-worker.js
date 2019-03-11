@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/shifting-gears-app-frontend/precache-manifest.f47c5073d38d740d16312dc464c38fd9.js"
+  "/shifting-gears-app-frontend/precache-manifest.c032aced20afca00239519487a6a9b0c.js"
 );
 
 workbox.clientsClaim();

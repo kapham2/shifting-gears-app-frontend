@@ -13,11 +13,11 @@ export default class GameCanvas extends Component {
     this.distanceTotal = this.indexLast * this.props.distanceToIndexRatio
     this.distanceScale = (this.width - this.imgWidth) / this.distanceTotal
 
-    const canvas = this.refs.elevationGraph
+    const canvas = this.refs.gameCanvas
     canvas.width = this.width * this.contextScale
-    canvas.height = this.height * this.contextScale
+    canvas.height = (this.height + 100) * this.contextScale
     canvas.style.width = `${this.width}px`
-    canvas.style.height = `${this.height}px`
+    canvas.style.height = `${this.height + 100}px`
     
     const context = canvas.getContext("2d")
     context.scale(this.contextScale, this.contextScale)
@@ -38,6 +38,8 @@ export default class GameCanvas extends Component {
     this.drawCyclist(context, img)
     
     this.drawTick(context)
+
+    this.drawVelocityScale(context)
     
     context.translate(0, -this.height)
   }
@@ -60,6 +62,38 @@ export default class GameCanvas extends Component {
     context.lineTo(this.width, 0);
     context.fillStyle = "#566E7A"
     context.fill();
+  }
+
+  drawVelocityScale = (context) => {
+    context.beginPath()
+    context.moveTo(0, 60)
+    context.lineTo(this.width, 60)
+    context.strokeStyle = "#192D4BF2";
+    context.lineWidth = 3;
+    context.stroke()
+
+    context.font = "bold 18px Helvetica Neue";
+    context.textAlign = "center"
+    context.fillStyle = "#FFFFFF"
+    context.fillText("Max Velocity in Current Gear", this.width / 2, 40)
+
+    for (let i = 0; i < this.props.velocityMax.length; i++) {
+      context.beginPath()
+      context.moveTo(this.props.velocityMax[i] * 25, 70)
+      context.lineTo(this.props.velocityMax[i] * 25, 50)
+      context.strokeStyle = i === this.props.idxTeethCog ? "#FFFFFF" : "#192D4BF2";
+      context.lineWidth = 3;
+      context.stroke()
+    }
+
+    context.beginPath()
+    context.moveTo(this.props.velocity * 25, 70)
+    context.lineTo(this.props.velocity * 25, 50)
+    context.strokeStyle = "#D20155";
+    context.lineWidth = 3;
+    context.stroke()
+    context.fillStyle = "#D20155"
+    context.fillText("Current Velocity", this.width / 2, 90)
   }
 
   drawTick = (context) => {
@@ -116,7 +150,7 @@ export default class GameCanvas extends Component {
     }
 
     return (
-      <canvas ref="elevationGraph"/>
+      <canvas ref="gameCanvas"/>
     )
   }
 }

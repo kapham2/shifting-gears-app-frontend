@@ -18,6 +18,18 @@ class Game extends React.Component {
     this.rho = 1.225 //kg/m3 (air density)
     this.teethCog = [32, 28, 25, 22, 20, 18, 16, 14, 13, 12, 11, 9.4, 8.6, 8, 7.3]
 
+    this.gearRatio = []
+    for (let i = 0; i < this.teethCog.length; i++) {
+      this.gearRatio = this.gearRatio.concat([Math.round(32 / this.teethCog[i] * 10) / 10])
+    }
+    // console.log("Gear Ratio:", this.gearRatio)
+
+    this.velocityMax = []
+    for (let i = 0; i < this.gearRatio.length; i++) {
+      this.velocityMax = this.velocityMax.concat([Math.round(this.gearRatio[i] * 2 * 3.14 * this.radiusTire / 1000 * 100) / 100])
+    }
+    // console.log("Max Velocity:", this.velocityMax)
+
     const elevations = [[1, 1], [2, 2], [3, 3]]
     let elevation = [1, 1, 1]
     for (let i = 0; i < 3; i++) {
@@ -116,8 +128,8 @@ class Game extends React.Component {
   onClickStart = (e) => {
     if (this.state.time === 0) {
       document.getElementById("start-btn").disabled = true
-      document.getElementById("acceleration-p").classList.remove("hide-p")
-      document.getElementById("velocity-p").classList.remove("hide-p")
+      // document.getElementById("acceleration-p").classList.remove("hide-p")
+      // document.getElementById("velocity-p").classList.remove("hide-p")
       this.startTimer()
     }
   }
@@ -282,14 +294,14 @@ class Game extends React.Component {
       <div>
           {/* <img className="img-cyclist" src={process.env.PUBLIC_URL + this.state.img} style={imgCyclistStyle} alt="" /> */}
           {/* <Chart distance={this.state.distance} elevation={this.elevation} distanceToIndexRatio={this.distanceToIndexRatio} /> */}
-          <GameCanvas elevationAndSlope={this.getElevationAndSlope()} distance={this.state.distance} elevation={this.elevation} distanceToIndexRatio={this.distanceToIndexRatio} img={this.state.img} />
+          <GameCanvas elevationAndSlope={this.getElevationAndSlope()} distance={this.state.distance} elevation={this.elevation} distanceToIndexRatio={this.distanceToIndexRatio} img={this.state.img} velocityMax={this.velocityMax} velocity={this.state.velocity} idxTeethCog={this.state.idxTeethCog} />
           <p>
             <button className="btn shadow-sm btn-sm" id="start-btn" onClick={this.onClickStart}>Start</button>{" "}
             <button className="btn shadow-sm btn-sm shift-btn" id="shift-up-btn" onClick={this.onClickShiftUp}>Shift Up</button>{" "}
             <button className="btn shadow-sm btn-sm shift-btn" id="shift-down-btn" onClick={this.onClickShiftDown}>Shift Down</button>
           </p>
-          <p className="hide-p" id="acceleration-p">acc = {Math.round(this.getAcceleration() * 100) / 100} m/s<sup>2</sup></p>
-          <p className="hide-p" id="velocity-p">v<sub>i</sub> = {Math.round(this.state.velocity * 100) / 100} m/s (v<sub>max</sub> = {Math.round(this.getVelocityMax() * 100) / 100} m/s)</p>
+          {/* <p className="hide-p" id="acceleration-p">acc = {Math.round(this.getAcceleration() * 100) / 100} m/s<sup>2</sup></p> */}
+          {/* <p className="hide-p" id="velocity-p">v<sub>i</sub> = {Math.round(this.state.velocity * 100) / 100} m/s (v<sub>max</sub> = {Math.round(this.getVelocityMax() * 100) / 100} m/s)</p> */}
       </div>
     )
   }

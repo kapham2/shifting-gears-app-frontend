@@ -19,17 +19,16 @@
   cursor: pointer;
 }
 
-.img-cyclist {
+/* .img-cyclist {
   max-width: 2.5rem;
-  /* transform: rotate(-15deg); */
   transform-origin: bottom center;
   position: relative;
   z-index: 1;
-}
+} */
 
-.hide-p {
+/* .hide-p {
   visibility: hidden;
-}
+} */
 
 .shift-btn {
   touch-action: manipulation;

@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/shifting-gears-app-frontend/static/js/2.e64f6f8c.chunk.js"
   },
   {
-    "revision": "1f5c4d4b9e5740f0a22aae363cb381f0",
+    "revision": "5879f8780ed518bfbebff1363ba1170f",
     "url": "/shifting-gears-app-frontend/index.html"
   }
 ];

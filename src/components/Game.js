@@ -16,7 +16,7 @@ class Game extends React.Component {
     this.Cd = 1 // (coefficient of drag)
     this.ARider = 0.4 //m2 (frontal area of rider)
     this.rho = 1.225 //kg/m3 (air density)
-    this.teethCog = [32, 28, 25, 22, 20, 18, 16, 14, 13, 12, 11, 9.4, 8.6, 8, 7.3]
+    this.teethCog = [32, 28, 25, 22, 20, 18, 16, 14, 13, 12, 11, 9.4/*, 8.6, 8, 7.3*/]
 
     this.gearRatio = []
     for (let i = 0; i < this.teethCog.length; i++) {
@@ -67,7 +67,7 @@ class Game extends React.Component {
       time: Date.now() - this.state.start,
       distance: this.getDistance(this.milliseconds),
       velocity: this.getVelocity(),
-      grade: this.getElevationAndSlope().slope * 10
+      grade: this.getElevationAndSlope().slope * 0.1
     }), this.milliseconds)
   }
 
@@ -145,8 +145,8 @@ class Game extends React.Component {
   getAcceleration = () => {
     const forceForward = this.forcePedal * (this.lengthCrankArm * this.teethCog[this.state.idxTeethCog]) / (this.state.teethChainring * this.radiusTire)
   
-    const forceResistGravity = -(this.massBikeAndRider * 9.81 * Math.sin(this.state.grade * 3.14 / 180))
-    const forceResistRolling = -(this.Cr * this.massBikeAndRider * 9.81 * Math.cos(this.state.grade * 3.14 / 180))
+    const forceResistGravity = -(this.massBikeAndRider * 9.81 * Math.sin(Math.atan(this.state.grade)))
+    const forceResistRolling = -(this.Cr * this.massBikeAndRider * 9.81 * Math.cos(Math.atan(this.state.grade)))
     const forceResistDrag = -(0.5 * this.Cd * this.ARider * this.rho * this.state.velocity ** 2)
     const forceResist = forceResistGravity + forceResistRolling + forceResistDrag
   
@@ -158,25 +158,26 @@ class Game extends React.Component {
   getVelocity = () => {
     const velocityMax = this.getVelocityMax()
     const acceleration = this.getAcceleration()
+    const velocity = this.state.velocity
 
     if (this.state.grade >= 0) {
-      if (this.state.velocity + acceleration <= 0 && acceleration < 0) {
+      if (velocity + acceleration <= 0 && acceleration < 0) {
         // console.log("end game; velocity < 0 && acceleration < 0")
         this.setState({ img: "/cyclist.png" })
         this.stopTimer()
         return 0
       }
-      else if (this.state.velocity + acceleration <= 0) {
+      else if (velocity + acceleration <= 0) {
         // console.log("change to a lower gear")
         return 0        
       }
-      else if (this.state.velocity + acceleration < this.state.velocity) {
+      else if (velocity + acceleration < velocity) {
         // console.log("change to a lower gear")
-        return this.state.velocity + acceleration
+        return velocity + acceleration
       }
-      else if (this.state.velocity + acceleration <= velocityMax) {
+      else if (velocity + acceleration <= velocityMax) {
         // console.log("OK")
-        return this.state.velocity + acceleration
+        return velocity + acceleration
       }
       else {
         // console.log("change to a higher gear")
@@ -184,13 +185,13 @@ class Game extends React.Component {
       }
     }
     else {
-      if (this.state.velocity + acceleration >= velocityMax){
+      if (velocity + acceleration >= velocityMax){
         // console.log("change to a higher gear")
-        return this.state.velocity + acceleration
+        return velocity + acceleration
       }
       else {
         // console.log("OK")
-        return this.state.velocity + acceleration
+        return velocity + acceleration
       }
     }
   }

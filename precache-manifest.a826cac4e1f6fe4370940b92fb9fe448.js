@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "771629f9c1a9dfa38cfd",
+    "revision": "5f5c823dcc536c8bcf83",
     "url": "/shifting-gears-app-frontend/static/css/main.a7e1a829.chunk.css"
   },
   {
-    "revision": "771629f9c1a9dfa38cfd",
-    "url": "/shifting-gears-app-frontend/static/js/main.771629f9.chunk.js"
+    "revision": "5f5c823dcc536c8bcf83",
+    "url": "/shifting-gears-app-frontend/static/js/main.5f5c823d.chunk.js"
   },
   {
     "revision": "cf8fbdf5c87498653c18",
@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/shifting-gears-app-frontend/static/js/2.e64f6f8c.chunk.js"
   },
   {
-    "revision": "4d10ada870516e883ccf74ad0915c7fb",
+    "revision": "b82fe1e24f5d409f7323933367b752c6",
     "url": "/shifting-gears-app-frontend/index.html"
   }
 ];

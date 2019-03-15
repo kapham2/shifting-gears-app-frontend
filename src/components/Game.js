@@ -51,6 +51,11 @@ class Game extends React.Component {
     }
   }
 
+  componentDidMount() {
+    document.getElementById("shift-up-btn").disabled = true
+    document.getElementById("shift-down-btn").disabled = true
+  }
+
   startTimer = () => {
     // console.log("start")
     this.setState({
@@ -78,6 +83,7 @@ class Game extends React.Component {
 
     clearInterval(this.timer)
     
+    document.getElementById("start-btn").disabled = false
     document.getElementById("shift-up-btn").disabled = true
     document.getElementById("shift-down-btn").disabled = true
   }
@@ -128,6 +134,8 @@ class Game extends React.Component {
   onClickStart = (e) => {
     if (this.state.time === 0) {
       document.getElementById("start-btn").disabled = true
+      document.getElementById("shift-up-btn").disabled = false
+      document.getElementById("shift-down-btn").disabled = false
       // document.getElementById("acceleration-p").classList.remove("hide-p")
       // document.getElementById("velocity-p").classList.remove("hide-p")
       this.startTimer()

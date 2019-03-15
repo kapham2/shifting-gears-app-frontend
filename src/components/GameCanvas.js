@@ -148,9 +148,9 @@ export default class GameCanvas extends Component {
   }
 
   render() {
-    if (this.props.distance > 100) {
-      clearInterval(this.timer)
-    }
+    // if (this.props.distance > 100) {
+    //   clearInterval(this.timer)
+    // }
 
     return (
       <canvas ref="gameCanvas"/>

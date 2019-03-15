@@ -68,12 +68,17 @@ class Game extends React.Component {
     })
 
     this.milliseconds = 1000 / 4
-    this.timer = setInterval(() => this.setState({ 
-      time: Date.now() - this.state.start,
-      distance: this.getDistance(this.milliseconds),
-      velocity: this.getVelocity(),
-      grade: this.getElevationAndSlope().slope * 0.1
-    }), this.milliseconds)
+    this.timer = setInterval(() => {
+      const distance = this.getDistance(this.milliseconds)
+      if (distance <= 100) {
+        this.setState({ 
+          time: Date.now() - this.state.start,
+          distance: distance,
+          velocity: this.getVelocity(),
+          grade: this.getElevationAndSlope().slope * 0.1
+        })
+      }
+    }, this.milliseconds)
   }
 
   stopTimer = () => {
@@ -132,14 +137,14 @@ class Game extends React.Component {
   }
 
   onClickStart = (e) => {
-    if (this.state.time === 0) {
+    // if (this.state.time === 0) {
       document.getElementById("start-btn").disabled = true
       document.getElementById("shift-up-btn").disabled = false
       document.getElementById("shift-down-btn").disabled = false
       // document.getElementById("acceleration-p").classList.remove("hide-p")
       // document.getElementById("velocity-p").classList.remove("hide-p")
       this.startTimer()
-    }
+    // }
   }
 
   componentWillUnmount () {
@@ -213,7 +218,7 @@ class Game extends React.Component {
       this.stopTimer()
     }
 
-    return this.state.distance + this.state.velocity * milliseconds / 1000
+    return nextDistance
   }
 
   onClickShiftUp = () => {

@@ -28,7 +28,7 @@ class SigninForm extends React.Component {
       case "Sign up":
         this.signUp(username, password)
         break
-      case "Use Incognito Mode":
+      case "Sign in as Incognito":
         this.authenticate("incognito", "p@$$w0rd")
         break
       default:
@@ -106,7 +106,7 @@ class SigninForm extends React.Component {
 
   render() {
     // console.log("SigninForm: this.props => ", this.props)
-    const input = this.props.active === "Use Incognito Mode" 
+    const input = this.props.active === "Sign in as Incognito" 
       ? "" 
       : (
         <div>

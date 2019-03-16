@@ -55,7 +55,7 @@ class CoverContainer extends React.Component {
         <nav className="nav nav-masthead justify-content-center">
           <div className="nav-link active" name="Sign in" onClick={this.onClickNav}>Sign in</div>
           <div className="nav-link" name="Sign up" onClick={this.onClickNav}>Sign up</div>
-          <div className="nav-link" name="Use Incognito Mode" onClick={this.onClickNav}>Incognito</div>
+          <div className="nav-link" name="Sign in as Incognito" onClick={this.onClickNav}>Incognito</div>
         </nav>
       )
       : (

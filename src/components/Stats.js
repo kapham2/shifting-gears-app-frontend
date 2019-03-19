@@ -7,7 +7,10 @@ class Stats extends React.Component {
 
     this._isMounted = false
 
-    this.state = { stats: [] }
+    this.state = { 
+      stats: [],
+      statsAll: true
+    }
   }
 
   componentDidMount() {
@@ -27,11 +30,22 @@ class Stats extends React.Component {
     this._isMounted = false
   }
 
+  onClickCheckbox = () => {
+    this.setState({ 
+      statsAll: !this.state.statsAll,
+     })
+  }
+
   render() {
     let rank = 0
 
     return (
       <div>
+        <strong>{ this.state.statsAll ? "All Stats " : "My Stats " }</strong>
+        <label className="switch">
+          <input type="checkbox" onClick={this.onClickCheckbox} />
+          <span className="slider round"></span>
+        </label>
         <table className="table table-sm table-striped table-dark">
           <thead>
             <tr>

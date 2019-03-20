@@ -9,6 +9,7 @@ class Stats extends React.Component {
 
     this.state = { 
       stats: [],
+      myStats: [],
       statsAll: true
     }
   }
@@ -24,6 +25,17 @@ class Stats extends React.Component {
     })
     .then(response => response.json())
     .then(response => this._isMounted ? this.setState({ stats: response }) : null)
+    .then(
+      fetch('https://shifting-gears-app-backend.herokuapp.com/api/v1/users/top-10-games', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization' : `Bearer ${localStorage.getItem("token")}`
+        }
+      })
+      .then(response => response.json())
+      .then(response => this._isMounted ? this.setState({ myStats: response }) : null)
+    )
   }
 
   componentWillUnmount() {
@@ -38,6 +50,7 @@ class Stats extends React.Component {
 
   render() {
     let rank = 0
+    const stats = this.state.statsAll ? this.state.stats : this.state.myStats
 
     return (
       <div>
@@ -56,7 +69,7 @@ class Stats extends React.Component {
           </thead>
           <tbody>
             {
-              this.state.stats.map((stat) => {
+              stats.map((stat) => {
                 rank = rank + 1
                 return (
                   <tr key={stat.id}>

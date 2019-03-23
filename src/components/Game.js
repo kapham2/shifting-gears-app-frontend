@@ -1,5 +1,4 @@
 import React from 'react'
-// import Chart from './Chart'
 import GameCanvas from './GameCanvas'
 
 class Game extends React.Component {
@@ -298,16 +297,8 @@ class Game extends React.Component {
   render() {
     // console.log("this.state", this.state)
 
-    // const imgCyclistStyle = {
-    //   left: -115 + this.state.distance * 2.35,
-    //   top: 40 - this.getElevationAndSlope().elevation * 9.25,
-    //   transform: `rotate(${-Math.atan(this.getElevationAndSlope().slope) * 9.25 / 2.35}rad)`,
-    // }
-
     return (
       <div>
-          {/* <img className="img-cyclist" src={process.env.PUBLIC_URL + this.state.img} style={imgCyclistStyle} alt="" /> */}
-          {/* <Chart distance={this.state.distance} elevation={this.elevation} distanceToIndexRatio={this.distanceToIndexRatio} /> */}
           <GameCanvas elevationAndSlope={this.getElevationAndSlope()} distance={this.state.distance} elevation={this.elevation} distanceToIndexRatio={this.distanceToIndexRatio} img={this.state.img} velocityMax={this.velocityMax} velocity={this.state.velocity} idxTeethCog={this.state.idxTeethCog} time={this.state.time} />
           <p>
             <button className="btn shadow-sm btn-sm" id="start-btn" onClick={this.onClickStart}>Start</button>{" "}
